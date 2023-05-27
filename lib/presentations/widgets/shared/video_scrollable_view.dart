@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_gallery_flutter/domain/entities/video_post.dart';
 import 'package:video_gallery_flutter/presentations/widgets/shared/video_buttons.dart';
+import 'package:video_gallery_flutter/presentations/widgets/video/full_screen_player.dart';
 
 class VideoScrollableView extends StatelessWidget {
   const VideoScrollableView({super.key, required this.videos});
@@ -21,9 +22,12 @@ class VideoScrollableView extends StatelessWidget {
         return Stack(// el stack se usa cuando tenemos una vista en la que vamos a tener varios elementos unos encima de otros
                       // por ejemplo, un video de fondo, por encima una capa para oscurecer y unos botones
           children: [
+            const SizedBox.expand(// con el .expand nos aseguramos que se pone a pantalla completa
+              child: FullScreenPlayer(),
+            ),
             Positioned(
                 bottom: 40,
-                right: 30,
+                right: 25,
                 child: VideoButtons(videoPost: videoPost))
           ],
         );
