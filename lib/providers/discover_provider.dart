@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:video_gallery_flutter/domain/entities/video_post.dart';
-import 'package:video_gallery_flutter/infrastructure/models/local_video_model.dart';
-import 'package:video_gallery_flutter/shared/data/local_video_posts.dart';
+import 'package:video_gallery_flutter/domain/repository/video_post_repository.dart';
 
 class DiscoverProvider extends ChangeNotifier {
+  // El objetivo de la creación de datasources y repositories es principalmente hacer que los providers sean 
+  // agnosticos del lugar del que están recibiendo los datos.
+  // En este caso vemos que declaramos un repositorio del cual obtenemos un método para obtener datos.
+  // El lugar del que vienen los datos da igual.
+  final VideoPostRepository videoRepository;
   bool initialLoading = true;
   List<VideoPost> videos = [];
 
-  Future<void> loadNextPage() async {
-    await Future.delayed(const Duration(seconds: 2));
+  DiscoverProvider({required this.videoRepository});
 
-    List<VideoPost> newVideos = videoPosts
-        .map((video) => LocalVideoModel.fromJsonMap(video).toVideoEntity())
-        .toList();
+  Future<void> loadNextPage() async {
+    List<VideoPost> newVideos = await videoRepository.getTrendingVideosByPage(1);
     
     videos.addAll(newVideos);
     initialLoading = false;

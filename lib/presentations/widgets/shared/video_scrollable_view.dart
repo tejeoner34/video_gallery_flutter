@@ -22,8 +22,8 @@ class VideoScrollableView extends StatelessWidget {
         return Stack(// el stack se usa cuando tenemos una vista en la que vamos a tener varios elementos unos encima de otros
                       // por ejemplo, un video de fondo, por encima una capa para oscurecer y unos botones
           children: [
-            const SizedBox.expand(// con el .expand nos aseguramos que se pone a pantalla completa
-              child: FullScreenPlayer(),
+            SizedBox.expand(// con el .expand nos aseguramos que se pone a pantalla completa
+              child: FullScreenPlayer(caption: videoPost.caption, videoUrl: videoPost.videoUrl),
             ),
             Positioned(
                 bottom: 40,

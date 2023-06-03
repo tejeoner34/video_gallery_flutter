@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:video_gallery_flutter/config/theme/app_theme.dart';
+import 'package:video_gallery_flutter/infrastructure/datasources/local_video_datasource_impl.dart';
+import 'package:video_gallery_flutter/infrastructure/repositories/video_respository_impl.dart';
 import 'package:video_gallery_flutter/presentations/screens/discover/discover_screen.dart';
 import 'package:video_gallery_flutter/providers/discover_provider.dart';
 
@@ -11,11 +13,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final videoPostRepository =
+        VideoPostsRepositoryImpl(videosDataSource: LocalVideoDataSource());
+        
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           lazy: false,
-          create: (_) => DiscoverProvider()..loadNextPage(),
+          create: (_) => DiscoverProvider(videoRepository: videoPostRepository)
+            ..loadNextPage(),
         )
       ],
       child: MaterialApp(
